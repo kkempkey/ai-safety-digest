@@ -73,16 +73,22 @@ def _call_cli_once(model: str, system: str, user_content: str,
                    schema: dict) -> dict:
     alias = CLI_MODEL_ALIAS.get(model, model)
     full_system = (
-        "%s\n\nOUTPUT FORMAT — non-negotiable: respond with ONLY valid JSON "
-        "matching this JSON Schema. No prose before or after, no code fences, "
-        "no explanations.\nSchema:\n%s" % (system, json.dumps(schema))
+        "%s\n\nYou have NO tools in this session — do not attempt to use any "
+        "tool, read any file, or take any action. Produce your answer directly "
+        "in a single response.\n\nOUTPUT FORMAT — non-negotiable: respond with "
+        "ONLY valid JSON matching this JSON Schema. No prose before or after, "
+        "no code fences, no explanations.\nSchema:\n%s"
+        % (system, json.dumps(schema))
     )
     env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
+    # --max-turns 1 forces a single direct response (no agentic tool loop),
+    # which is also what keeps latency sane for opus.
     proc = subprocess.run(
         [_claude_bin(), "-p", "--output-format", "json",
-         "--model", alias, "--system-prompt", full_system],
+         "--model", alias, "--system-prompt", full_system,
+         "--max-turns", "1", "--disallowed-tools", "*"],
         input=user_content, capture_output=True, text=True,
-        timeout=600, cwd=str(PROJECT_ROOT), env=env,
+        timeout=900, cwd=str(PROJECT_ROOT), env=env,
     )
     if proc.returncode != 0:
         raise RuntimeError("claude CLI exit %d: %s"

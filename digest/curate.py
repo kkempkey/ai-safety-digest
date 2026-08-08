@@ -7,10 +7,12 @@ Pass B (single):  edition title, intro, top story selection.
 import json
 from typing import List, Optional
 
-from .llm import structured_call
+from .llm import backend, structured_call
 
 CURATE_MODEL = "claude-opus-5"
-CHUNK_SIZE = 20
+# The CLI backend is much slower per call than the API, so keep its chunks
+# small enough that one chunk can't run away.
+CHUNK_SIZE = 20 if backend() == "api" else 8
 
 # The editorial rubric IS the product. Keep it byte-identical across calls
 # (it is a cached prefix) — never interpolate the date or anything volatile here.
