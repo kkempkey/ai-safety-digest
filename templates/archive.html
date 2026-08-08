@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archive — AI Safety Digest</title>
+<link rel="stylesheet" href="{{ depth }}assets/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="masthead">AI SAFETY DIGEST</p>
+    <h1>Archive</h1>
+    <p class="dateline"><a href="{{ depth }}index.html">← latest edition</a></p>
+  </header>
+  <section>
+    <ul class="archive">
+      {% for date, title, count in editions %}
+      <li>
+        <a href="editions/{{ date }}.html">{{ date }}</a>
+        — {{ title }} <span class="count">({{ count }} items)</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+</body>
+</html>

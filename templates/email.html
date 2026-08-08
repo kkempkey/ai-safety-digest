@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ edition_title }}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#faf9f6;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#faf9f6;">
+<tr><td align="center" style="padding:24px 12px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e5e1d8;border-radius:8px;">
+<tr><td style="padding:28px 28px 8px;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;">
+
+  <p style="margin:0 0 4px;font-size:12px;font-weight:700;letter-spacing:3px;color:#b45309;">AI SAFETY DIGEST</p>
+  <p style="margin:0 0 16px;font-size:13px;color:#6b7280;">{{ date_human }} &middot; {{ item_count }} items</p>
+  <h1 style="margin:0 0 12px;font-size:24px;line-height:1.3;color:#1a1e24;">{{ edition_title }}</h1>
+  {% if intro %}<p style="margin:0 0 8px;font-size:16px;line-height:1.55;color:#1a1e24;">{{ intro }}</p>{% endif %}
+
+</td></tr>
+
+{% if top_stories %}
+<tr><td style="padding:8px 28px;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <p style="margin:16px 0 8px;font-size:13px;font-weight:700;letter-spacing:2px;color:#b45309;border-bottom:1px solid #e5e1d8;padding-bottom:6px;">&#9733; TOP STORIES</p>
+  {% for it in top_stories %}
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px;">
+  <tr><td style="background-color:#fdf9f2;border-left:3px solid #b45309;border-radius:4px;padding:12px 16px;">
+    <p style="margin:0 0 2px;font-size:17px;line-height:1.35;">
+      <a href="{{ it.url }}" style="color:#1d4ed8;text-decoration:none;font-weight:600;">{{ it.headline }}</a></p>
+    <p style="margin:0 0 6px;font-size:12px;color:#6b7280;">{{ it.source }}</p>
+    <p style="margin:0 0 6px;font-size:15px;line-height:1.5;color:#1a1e24;">{{ it.summary }}</p>
+    <p style="margin:0;font-size:14px;line-height:1.5;color:#6b7280;"><strong style="color:#1a1e24;">Why it matters:</strong> {{ it.why_it_matters }}</p>
+  </td></tr>
+  </table>
+  {% endfor %}
+</td></tr>
+{% endif %}
+
+{% for sec in sections %}
+<tr><td style="padding:8px 28px;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <p style="margin:16px 0 8px;font-size:13px;font-weight:700;letter-spacing:2px;color:#b45309;text-transform:uppercase;border-bottom:1px solid #e5e1d8;padding-bottom:6px;">{{ sec.label }} ({{ sec.entries | length }})</p>
+  {% for it in sec.entries %}
+  <p style="margin:12px 0 2px;font-size:16px;line-height:1.4;">
+    <a href="{{ it.url }}" style="color:#1d4ed8;text-decoration:none;font-weight:600;">{{ it.headline }}</a></p>
+  <p style="margin:0 0 4px;font-size:12px;color:#6b7280;">{{ it.source }}</p>
+  <p style="margin:0 0 4px;font-size:14px;line-height:1.5;color:#1a1e24;">{{ it.summary }}</p>
+  <p style="margin:0 0 8px;font-size:13px;line-height:1.5;color:#6b7280;">{{ it.why_it_matters }}</p>
+  {% endfor %}
+</td></tr>
+{% endfor %}
+
+<tr><td style="padding:16px 28px 28px;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <p style="margin:16px 0 0;padding-top:12px;border-top:1px solid #e5e1d8;font-size:12px;line-height:1.5;color:#6b7280;">
+    Generated {{ generated_at }}.
+    {% if stale_sources %}<br>&#9888; Stale sources (no items 7+ days): {{ stale_sources | join(", ") }}.{% endif %}
+  </p>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

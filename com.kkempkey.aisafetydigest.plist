@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.kkempkey.aisafetydigest</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/kristinakempkey/Desktop/claude workspace/ai-safety-digest/run_daily.sh</string>
+  </array>
+
+  <!-- 07:30 primary run, 08:15 retry (no-op if 07:30 succeeded).
+       launchd fires at next wake if the Mac was asleep at the scheduled time. -->
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict>
+      <key>Hour</key><integer>7</integer>
+      <key>Minute</key><integer>30</integer>
+    </dict>
+    <dict>
+      <key>Hour</key><integer>8</integer>
+      <key>Minute</key><integer>15</integer>
+    </dict>
+  </array>
+
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/kristinakempkey/Desktop/claude workspace/ai-safety-digest/data/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/kristinakempkey/Desktop/claude workspace/ai-safety-digest/data/launchd.log</string>
+</dict>
+</plist>

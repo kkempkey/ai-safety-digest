@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ edition_title }} — AI Safety Digest</title>
+<link rel="stylesheet" href="{{ depth }}assets/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="masthead">AI SAFETY DIGEST</p>
+    <p class="dateline">{{ date_human }} · {{ item_count }} items
+      · <a href="{{ depth }}archive.html">archive</a></p>
+    <h1>{{ edition_title }}</h1>
+    {% if intro %}<p class="intro">{{ intro }}</p>{% endif %}
+  </header>
+
+  {% if top_stories %}
+  <section class="top">
+    <h2>★ Top Stories</h2>
+    {% for it in top_stories %}
+    <article class="item top-item">
+      <h3><a href="{{ it.url }}">{{ it.headline }}</a></h3>
+      <p class="meta">{{ it.source }}{% if it.published %} · {{ it.published | relative_time }}{% endif %}</p>
+      <p>{{ it.summary }}</p>
+      <p class="why"><strong>Why it matters:</strong> {{ it.why_it_matters }}</p>
+    </article>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% for sec in sections %}
+  <section>
+    <h2>{{ sec.label }} <span class="count">({{ sec.entries | length }})</span></h2>
+    {% for it in sec.entries %}
+    <article class="item">
+      <h3><a href="{{ it.url }}">{{ it.headline }}</a></h3>
+      <p class="meta">{{ it.source }}{% if it.published %} · {{ it.published | relative_time }}{% endif %}</p>
+      <p>{{ it.summary }}</p>
+      <p class="why">{{ it.why_it_matters }}</p>
+    </article>
+    {% endfor %}
+  </section>
+  {% endfor %}
+
+  <footer>
+    <p>Generated {{ generated_at }}.
+    {% if stale_sources %}⚠ Stale sources (no items 7+ days): {{ stale_sources | join(", ") }}.{% endif %}</p>
+  </footer>
+</div>
+</body>
+</html>
