@@ -7,7 +7,7 @@ passing top prefiltered items straight to curation.
 import json
 from typing import List
 
-import anthropic
+from .llm import structured_call
 
 TRIAGE_MODEL = "claude-haiku-4-5"
 CHUNK_SIZE = 40
@@ -54,15 +54,12 @@ TRIAGE_SCHEMA = {
 }
 
 
-def triage(candidates: List[dict], client=None, log=print) -> List[dict]:
+def triage(candidates: List[dict], log=print) -> List[dict]:
     """Return the kept subset of candidates. Tier-1 items pass through untouched."""
     tier1 = [c for c in candidates if c["tier"] == 1]
     tier2 = [c for c in candidates if c["tier"] >= 2]
     if not tier2:
         return tier1
-
-    if client is None:
-        client = anthropic.Anthropic()
 
     indexed = {i: c for i, c in enumerate(tier2)}
     kept_ids = set()
@@ -78,19 +75,9 @@ def triage(candidates: List[dict], client=None, log=print) -> List[dict]:
             }
             for i in chunk_ids
         ]
-        response = client.messages.create(
-            model=TRIAGE_MODEL,
-            max_tokens=8000,
-            system=[{
-                "type": "text",
-                "text": TRIAGE_SYSTEM,
-                "cache_control": {"type": "ephemeral"},
-            }],
-            output_config={"format": {"type": "json_schema", "schema": TRIAGE_SCHEMA}},
-            messages=[{"role": "user", "content": json.dumps(payload)}],
-        )
-        text = next(b.text for b in response.content if b.type == "text")
-        decisions = json.loads(text)["decisions"]
+        result = structured_call(TRIAGE_MODEL, TRIAGE_SYSTEM, json.dumps(payload),
+                                 TRIAGE_SCHEMA, max_tokens=8000, log=log)
+        decisions = result["decisions"]
         decided = {d["id"] for d in decisions}
         for d in decisions:
             if d["keep"] and d["id"] in indexed:

@@ -9,14 +9,18 @@ morning before 9am.
 fetch → prefilter → triage (Haiku) → curate (Opus) → render → email
 ```
 
-Cost: roughly $0.20–0.30/day in API usage.
+Cost: free under a Claude Pro/Max subscription (uses the Claude Code login on
+this Mac); or ~$0.20–0.30/day if you set an `ANTHROPIC_API_KEY` instead.
 
 ## One-time setup
 
-1. **API key** — create one at [console.anthropic.com](https://console.anthropic.com),
-   then:
+1. **Claude access — nothing to do.** The pipeline uses the Claude Code login
+   already on this Mac (your Max subscription) via headless `claude -p`; usage
+   counts against Max limits, which one run/day barely touches. Optionally, set
+   `ANTHROPIC_API_KEY` in `.env` to use the pay-as-you-go API instead
+   (~$0.25/day) — the code switches automatically if the key is present.
    ```bash
-   cp .env.example .env    # then edit .env and paste the key
+   cp .env.example .env    # then fill in the Gmail values below
    ```
 
 2. **Gmail App Password** (for the daily email):

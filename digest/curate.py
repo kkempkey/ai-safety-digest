@@ -7,7 +7,7 @@ Pass B (single):  edition title, intro, top story selection.
 import json
 from typing import List, Optional
 
-import anthropic
+from .llm import structured_call
 
 CURATE_MODEL = "claude-opus-5"
 CHUNK_SIZE = 20
@@ -87,27 +87,8 @@ FRAMING_SCHEMA = {
 }
 
 
-def _structured(client, model, system, schema, user_payload, max_tokens=16000):
-    response = client.messages.create(
-        model=model,
-        max_tokens=max_tokens,
-        system=[{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
-        thinking={"type": "adaptive"},
-        output_config={"format": {"type": "json_schema", "schema": schema}},
-        messages=[{"role": "user", "content": user_payload}],
-    )
-    if response.stop_reason == "refusal":
-        raise RuntimeError("model refused (stop_details=%s)" % response.stop_details)
-    text = next(b.text for b in response.content if b.type == "text")
-    return json.loads(text)
-
-
-def curate_items(candidates: List[dict], date_label: str,
-                 client=None, log=print) -> List[dict]:
+def curate_items(candidates: List[dict], date_label: str, log=print) -> List[dict]:
     """Pass A. Returns curated entries joined back to their source rows."""
-    if client is None:
-        client = anthropic.Anthropic()
-
     indexed = {i: c for i, c in enumerate(candidates)}
     curated: List[dict] = []
 
@@ -127,12 +108,12 @@ def curate_items(candidates: List[dict], date_label: str,
             ],
         })
         try:
-            result = _structured(client, CURATE_MODEL, EDITORIAL_RUBRIC,
-                                 ITEM_SCHEMA, payload)
+            result = structured_call(CURATE_MODEL, EDITORIAL_RUBRIC,
+                                     payload, ITEM_SCHEMA, log=log)
         except Exception as exc:  # retry the chunk once; then skip it, not the run
             log("  WARN curate chunk %d failed (%s), retrying once" % (start, exc))
-            result = _structured(client, CURATE_MODEL, EDITORIAL_RUBRIC,
-                                 ITEM_SCHEMA, payload)
+            result = structured_call(CURATE_MODEL, EDITORIAL_RUBRIC,
+                                     payload, ITEM_SCHEMA, log=log)
         for entry in result["items"]:
             src = indexed.get(entry["id"])
             if src is None or not entry["include"]:
@@ -153,11 +134,8 @@ def curate_items(candidates: List[dict], date_label: str,
     return curated
 
 
-def frame_edition(curated: List[dict], date_label: str,
-                  client=None, log=print) -> dict:
+def frame_edition(curated: List[dict], date_label: str, log=print) -> dict:
     """Pass B. Falls back to significance ranking with no intro on failure."""
-    if client is None:
-        client = anthropic.Anthropic()
     payload = json.dumps({
         "date": date_label,
         "items": [
@@ -167,8 +145,8 @@ def frame_edition(curated: List[dict], date_label: str,
         ],
     })
     try:
-        result = _structured(client, CURATE_MODEL, FRAMING_SYSTEM,
-                             FRAMING_SCHEMA, payload, max_tokens=4000)
+        result = structured_call(CURATE_MODEL, FRAMING_SYSTEM,
+                                 payload, FRAMING_SCHEMA, max_tokens=4000, log=log)
         top_ids = [i for i in result["top_story_ids"] if 0 <= i < len(curated)][:5]
         if not top_ids:
             raise ValueError("empty top_story_ids")
@@ -184,13 +162,11 @@ def frame_edition(curated: List[dict], date_label: str,
         return {"edition_title": "AI Safety Digest", "intro": "", "top_story_ids": ranked}
 
 
-def curate(candidates: List[dict], date_label: str, client=None, log=print) -> dict:
+def curate(candidates: List[dict], date_label: str, log=print) -> dict:
     """Full curation: returns the edition payload consumed by render/email."""
-    if client is None:
-        client = anthropic.Anthropic()
-    items = curate_items(candidates, date_label, client, log)
+    items = curate_items(candidates, date_label, log)
     if not items:
         return {"edition_title": "AI Safety Digest", "intro": "",
                 "top_story_ids": [], "items": []}
-    framing = frame_edition(items, date_label, client, log)
+    framing = frame_edition(items, date_label, log)
     return {**framing, "items": items}
