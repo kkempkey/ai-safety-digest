@@ -9,6 +9,11 @@ LOG="data/run-$(date +%Y-%m-%d).log"
   echo "=== run started $(date) ==="
   ./.venv/bin/python -m digest run
   status=$?
+  if [ $status -eq 0 ]; then
+    echo "=== deploying site to Vercel ==="
+    (cd site && "$HOME/.local/bin/vercel" deploy --prod --yes) \
+      || echo "WARN: vercel deploy failed (site still updated locally)"
+  fi
   echo "=== run finished $(date) exit=$status ==="
   exit $status
 } >> "$LOG" 2>&1
