@@ -126,9 +126,27 @@ def cmd_run(args):
 
     conn = store.connect()
     date = today()
-    if store.edition_exists(conn, date) and not args.force:
-        print("Edition for %s already exists; nothing to do." % date)
-        return 0
+    existing = store.get_edition(conn, date)
+    if existing is not None and not args.force:
+        if existing["emailed_at"] or args.no_email:
+            print("Edition for %s already exists; nothing to do." % date)
+            return 0
+        # Built earlier but the email failed — re-send from the stored payload
+        # instead of rebuilding (candidates are already consumed).
+        print("Edition for %s exists but was never emailed; retrying send." % date)
+        payload = json.loads(existing["payload"])
+        html, text = render_email(payload, date, store.stale_sources(conn))
+        subject = "AI Safety Digest — %s · %d items" % (
+            datetime.strptime(date, "%Y-%m-%d").strftime("%a %b %d"),
+            len(payload["items"]))
+        try:
+            mailer.send(subject, html, text)
+            store.mark_emailed(conn, date)
+            conn.commit()
+            return 0
+        except Exception as exc:  # noqa: BLE001
+            print("Email retry failed: %s" % exc, file=sys.stderr)
+            return 1
 
     log_lines = []
 
