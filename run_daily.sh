@@ -4,6 +4,8 @@
 # when the 07:30 run succeeded.
 set -u
 cd "$(dirname "$0")"
+# launchd's PATH is minimal; node/vercel/claude live in ~/.local/bin
+export PATH="$HOME/.local/bin:$PATH"
 LOG="data/run-$(date +%Y-%m-%d).log"
 {
   echo "=== run started $(date) ==="
