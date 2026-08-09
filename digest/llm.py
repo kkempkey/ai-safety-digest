@@ -120,13 +120,25 @@ def structured_call(model: str, system: str, user_content: str, schema: dict,
     """One structured LLM call via whichever backend is available."""
     if backend() == "api":
         return _call_api(model, system, user_content, schema, max_tokens)
-    # CLI backend: JSON via prompt; retry once on parse/validation failure
-    try:
-        result = _call_cli_once(model, system, user_content, schema)
-        _validate_top_level(result, schema)
-        return result
-    except (json.JSONDecodeError, ValueError, RuntimeError) as exc:
-        log("  WARN cli call failed (%s); retrying once" % str(exc)[:120])
-        result = _call_cli_once(model, system, user_content, schema)
-        _validate_top_level(result, schema)
-        return result
+    # CLI backend: JSON via prompt. Attempt order: the requested model twice,
+    # then escalate opus failures to fable (per Kristina: fable when needed,
+    # opus otherwise).
+    attempts = [model, model]
+    if model == "claude-opus-5":
+        attempts.append("claude-fable-5")
+    last_exc = None
+    for i, m in enumerate(attempts):
+        try:
+            result = _call_cli_once(m, system, user_content, schema)
+            _validate_top_level(result, schema)
+            if m != model:
+                log("  note: %s answered after %s failed" % (m, model))
+            return result
+        except (json.JSONDecodeError, ValueError, RuntimeError,
+                subprocess.TimeoutExpired) as exc:
+            last_exc = exc
+            if i < len(attempts) - 1:
+                nxt = attempts[i + 1]
+                log("  WARN cli call via %s failed (%s); retrying with %s"
+                    % (m, str(exc)[:100], nxt))
+    raise RuntimeError("all cli attempts failed: %s" % last_exc)
