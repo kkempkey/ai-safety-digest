@@ -73,6 +73,17 @@
 
     { "name": "Google News: AI safety",   "url": "https://news.google.com/rss/search?q=%22AI+safety%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 3 },
     { "name": "Google News: AI Safety Institute", "url": "https://news.google.com/rss/search?q=%22AI+Safety+Institute%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 3 },
-    { "name": "Google News: AI regulation", "url": "https://news.google.com/rss/search?q=%22AI+regulation%22+OR+%22AI+Act%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 3 }
+    { "name": "Google News: AI regulation", "url": "https://news.google.com/rss/search?q=%22AI+regulation%22+OR+%22AI+Act%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 3 },
+
+    { "name": "Helen Toner (Rising Tide)",  "url": "https://helentoner.substack.com/feed",                        "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 4 },
+    { "name": "ChinaTalk",                  "url": "https://www.chinatalk.media/feed",                            "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Horizon Institute",          "url": "https://www.horizonpublicservice.org/feed",                   "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Oscar Delaney",              "url": "https://oscardelaney.substack.com/feed",                      "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Peter Wildeford",            "url": "https://peterwildeford.substack.com/feed",                    "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 4 },
+    { "name": "AI Policy Perspectives",     "url": "https://www.aipolicyperspectives.com/feed",                   "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 4 },
+    { "name": "Planned Obsolescence",       "url": "https://www.planned-obsolescence.org/feed.xml",               "adapter": "rss", "tier": 1, "theme_hint": "research",  "max_per_day": 3 },
+    { "name": "EU AI Act Newsletter",       "url": "https://artificialintelligenceact.substack.com/feed",         "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Vox Future Perfect",         "url": "https://www.vox.com/rss/future-perfect/index.xml",            "adapter": "rss", "tier": 2, "theme_hint": "community", "max_per_day": 3 },
+    { "name": "Google News: Gregory C. Allen", "url": "https://news.google.com/rss/search?q=%22Gregory+C.+Allen%22+AI&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 2 }
   ]
 }
