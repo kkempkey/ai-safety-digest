@@ -1,5 +1,7 @@
 # AI Safety Daily Digest
 
+**📰 Read it live: [ai-safety-digest.vercel.app](https://ai-safety-digest.vercel.app)** — a new edition every morning.
+
 A daily AI-curated digest of the AI safety landscape — ~55 sources (labs, arXiv,
 LessWrong/Alignment Forum, think tanks, Substacks, newspapers, podcasts) filtered
 and summarized by Claude, rendered to a local website and emailed to you every
