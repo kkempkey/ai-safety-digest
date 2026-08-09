@@ -81,21 +81,30 @@ def _call_cli_once(model: str, system: str, user_content: str,
         % (system, json.dumps(schema))
     )
     env = {k: v for k, v in os.environ.items() if k != "CLAUDECODE"}
-    # --max-turns 1 forces a single direct response (no agentic tool loop),
-    # which is also what keeps latency sane for opus.
+    # Tools are disallowed, so the agentic loop can't wander; the turn cap is
+    # only a backstop. It must NOT be 1 — opus can burn a turn on internal
+    # reasoning and end with subtype=error_max_turns and an empty result.
     proc = subprocess.run(
         [_claude_bin(), "-p", "--output-format", "json",
          "--model", alias, "--system-prompt", full_system,
-         "--max-turns", "1", "--disallowed-tools", "*"],
+         "--max-turns", "8", "--disallowed-tools", "*"],
         input=user_content, capture_output=True, text=True,
         timeout=900, cwd=str(PROJECT_ROOT), env=env,
     )
     if proc.returncode != 0:
         raise RuntimeError("claude CLI exit %d: %s"
                            % (proc.returncode, (proc.stderr or proc.stdout)[:400]))
-    envelope = json.loads(proc.stdout)
+    try:
+        envelope = json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        raise RuntimeError(
+            "claude CLI produced non-JSON output (stdout=%r, stderr=%r)"
+            % (proc.stdout[:300], proc.stderr[:300]))
     if envelope.get("is_error"):
         raise RuntimeError("claude CLI error: %s" % str(envelope)[:400])
+    if not envelope.get("result", "").strip():
+        raise RuntimeError("claude CLI returned empty result (subtype=%r)"
+                           % envelope.get("subtype"))
     text = FENCE.sub("", envelope.get("result", "").strip())
     return json.loads(text)
 

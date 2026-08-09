@@ -9,7 +9,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>/Users/kristinakempkey/Desktop/claude workspace/ai-safety-digest/run_daily.sh</string>
+    <string>/Users/kristinakempkey/ai-safety-digest/run_daily.sh</string>
   </array>
 
   <!-- 07:30 primary run, 08:15 retry (no-op if 07:30 succeeded).
@@ -30,8 +30,8 @@
   <false/>
 
   <key>StandardOutPath</key>
-  <string>/Users/kristinakempkey/Desktop/claude workspace/ai-safety-digest/data/launchd.log</string>
+  <string>/Users/kristinakempkey/ai-safety-digest/data/launchd.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/kristinakempkey/Desktop/claude workspace/ai-safety-digest/data/launchd.log</string>
+  <string>/Users/kristinakempkey/ai-safety-digest/data/launchd.log</string>
 </dict>
 </plist>
