@@ -162,13 +162,47 @@ def fetch_source(source: dict, check_window: bool = True) -> List[dict]:
     return fetch_rss(source, check_window=check_window)
 
 
+def wait_for_network(max_wait_seconds: int = 300, log=print) -> bool:
+    """Block until the internet is actually reachable (DNS + HTTP), up to a cap.
+
+    The 7:30 run often fires the moment the Mac wakes, before Wi-Fi is up —
+    without this gate a whole run's worth of sources fails with DNS errors.
+    """
+    probes = ("https://news.google.com/", "https://www.google.com/")
+    deadline = time.time() + max_wait_seconds
+    attempt = 0
+    while time.time() < deadline:
+        for probe in probes:
+            try:
+                http_get(probe, timeout=10)
+                if attempt:
+                    log("  network up after %d probe attempts" % attempt)
+                return True
+            except Exception:  # noqa: BLE001
+                pass
+        attempt += 1
+        if attempt == 1:
+            log("  network not ready; waiting (up to %ds)..." % max_wait_seconds)
+        time.sleep(10)
+    log("  WARN network still unreachable after %ds" % max_wait_seconds)
+    return False
+
+
 def fetch_all(conn, run_date: str, log=print) -> Dict[str, int]:
-    """Fetch every enabled source; per-source failure never fails the run.
+    """Fetch every enabled source.
+
+    Per-source failure never fails the run, but a *systemic* failure does:
+    if more than 40% of sources error (network outage at wake, DNS down),
+    raises RuntimeError so no thin edition is recorded and the 08:15 retry
+    rebuilds from scratch.
 
     Returns {source_name: new_item_count}.
     """
+    wait_for_network(log=log)
     results: Dict[str, int] = {}
-    for source in load_sources():
+    failed = 0
+    sources = load_sources()
+    for source in sources:
         name = source["name"]
         try:
             items = fetch_source(source)
@@ -178,8 +212,14 @@ def fetch_all(conn, run_date: str, log=print) -> Dict[str, int]:
             results[name] = new
             log("  %-32s fetched=%-4d new=%d" % (name, len(items), new))
         except Exception as exc:  # noqa: BLE001 — isolation is the point
+            failed += 1
             store.record_source_health(conn, name, run_date, False, 0, str(exc)[:300])
             results[name] = 0
             log("  WARN %-27s %s: %s" % (name, type(exc).__name__, str(exc)[:120]))
     conn.commit()
+    if sources and failed > 0.4 * len(sources):
+        raise RuntimeError(
+            "systemic fetch failure: %d/%d sources errored — likely a network "
+            "outage; aborting so the retry run rebuilds with full coverage"
+            % (failed, len(sources)))
     return results
