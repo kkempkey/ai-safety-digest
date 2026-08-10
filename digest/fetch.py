@@ -162,11 +162,13 @@ def fetch_source(source: dict, check_window: bool = True) -> List[dict]:
     return fetch_rss(source, check_window=check_window)
 
 
-def wait_for_network(max_wait_seconds: int = 300, log=print) -> bool:
+def wait_for_network(max_wait_seconds: int = 7200, log=print) -> bool:
     """Block until the internet is actually reachable (DNS + HTTP), up to a cap.
 
-    The 7:30 run often fires the moment the Mac wakes, before Wi-Fi is up —
+    The morning run can fire the moment the Mac wakes, before Wi-Fi is up —
     without this gate a whole run's worth of sources fails with DNS errors.
+    Per Kristina: if the internet isn't connected, run when it is — so wait
+    for hours if needed, not minutes; the cap only prevents an infinite hang.
     """
     probes = ("https://news.google.com/", "https://www.google.com/")
     deadline = time.time() + max_wait_seconds
