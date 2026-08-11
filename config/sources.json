@@ -84,6 +84,19 @@
     { "name": "Planned Obsolescence",       "url": "https://www.planned-obsolescence.org/feed.xml",               "adapter": "rss", "tier": 1, "theme_hint": "research",  "max_per_day": 3 },
     { "name": "EU AI Act Newsletter",       "url": "https://artificialintelligenceact.substack.com/feed",         "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
     { "name": "Vox Future Perfect",         "url": "https://www.vox.com/rss/future-perfect/index.xml",            "adapter": "rss", "tier": 2, "theme_hint": "community", "max_per_day": 3 },
-    { "name": "Google News: Gregory C. Allen", "url": "https://news.google.com/rss/search?q=%22Gregory+C.+Allen%22+AI&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 2 }
+    { "name": "Google News: Gregory C. Allen", "url": "https://news.google.com/rss/search?q=%22Gregory+C.+Allen%22+AI&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 2 },
+
+    { "name": "AI Frontiers",               "url": "https://aifrontiersmedia.substack.com/feed",                  "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 4 },
+    { "name": "IAPS Substack",              "url": "https://iaps.substack.com/feed",                              "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "CSIS",                       "url": "https://www.csis.org/rss.xml",                                "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 4 },
+    { "name": "CNAS",                       "url": "https://www.cnas.org/articles-multimedia",                    "adapter": "html", "tier": 2, "theme_hint": "policy",   "max_per_day": 4,
+      "link_pattern": "^(https://www\\.cnas\\.org)?/publications/[^/]+/[^/]+$", "_note": "CNAS publishes no RSS feed; scraping their articles index." },
+    { "name": "Google News: Lawfare",       "url": "https://news.google.com/rss/search?q=site:lawfaremedia.org&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 3, "_note": "Workaround: Lawfare's own feed is Cloudflare-blocked (see disabled entry above)." },
+    { "name": "Google News: RAND AI",       "url": "https://news.google.com/rss/search?q=site:rand.org+artificial+intelligence&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 3, "_note": "Workaround: RAND's topic feed serves zero entries (see disabled entry above)." },
+
+    { "name": "Google News: Sam Altman",    "url": "https://news.google.com/rss/search?q=%22Sam+Altman%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2, "_note": "X/Twitter blocks feed readers, so AI-founder coverage comes via news queries instead of X feeds directly." },
+    { "name": "Google News: Dario Amodei",  "url": "https://news.google.com/rss/search?q=%22Dario+Amodei%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 },
+    { "name": "Google News: Demis Hassabis", "url": "https://news.google.com/rss/search?q=%22Demis+Hassabis%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 },
+    { "name": "Google News: Elon Musk xAI", "url": "https://news.google.com/rss/search?q=%22Elon+Musk%22+xAI+OR+Grok&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 }
   ]
 }
