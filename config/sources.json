@@ -97,6 +97,9 @@
     { "name": "Google News: Sam Altman",    "url": "https://news.google.com/rss/search?q=%22Sam+Altman%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2, "_note": "X/Twitter blocks feed readers, so AI-founder coverage comes via news queries instead of X feeds directly." },
     { "name": "Google News: Dario Amodei",  "url": "https://news.google.com/rss/search?q=%22Dario+Amodei%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 },
     { "name": "Google News: Demis Hassabis", "url": "https://news.google.com/rss/search?q=%22Demis+Hassabis%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 },
-    { "name": "Google News: Elon Musk xAI", "url": "https://news.google.com/rss/search?q=%22Elon+Musk%22+xAI+OR+Grok&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 }
+    { "name": "Google News: Elon Musk xAI", "url": "https://news.google.com/rss/search?q=%22Elon+Musk%22+xAI+OR+Grok&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 },
+
+    { "name": "Council on Strategic Risks", "url": "https://councilonstrategicrisks.org/feed/",                   "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3, "_note": "Tier 1 so biosecurity items aren't dropped by the AI keyword prefilter; the curation stage still picks what's relevant." },
+    { "name": "Google News: RAND biosecurity", "url": "https://news.google.com/rss/search?q=site:rand.org+biosecurity+OR+%22biological+weapons%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 1, "theme_hint": "policy", "max_per_day": 2, "_note": "RAND's bio/health topic feeds are 404/empty like their AI feed; tier 1 so bio items aren't keyword-filtered out." }
   ]
 }
