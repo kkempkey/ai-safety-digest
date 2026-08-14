@@ -88,6 +88,7 @@
 
     { "name": "AI Frontiers",               "url": "https://aifrontiersmedia.substack.com/feed",                  "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 4 },
     { "name": "IAPS Substack",              "url": "https://iaps.substack.com/feed",                              "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "The Substrate (IAPS)",       "url": "https://the-substrate.net/feed",                              "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3, "_note": "IAPS blog on AI hardware, export controls, and data center security, edited by Erich Grunewald." },
     { "name": "CSIS",                       "url": "https://www.csis.org/rss.xml",                                "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 4 },
     { "name": "CNAS",                       "url": "https://www.cnas.org/articles-multimedia",                    "adapter": "html", "tier": 2, "theme_hint": "policy",   "max_per_day": 4,
       "link_pattern": "^(https://www\\.cnas\\.org)?/publications/[^/]+/[^/]+$", "_note": "CNAS publishes no RSS feed; scraping their articles index." },
