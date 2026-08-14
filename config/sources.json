@@ -101,6 +101,26 @@
     { "name": "Google News: Elon Musk xAI", "url": "https://news.google.com/rss/search?q=%22Elon+Musk%22+xAI+OR+Grok&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "industry", "max_per_day": 2 },
 
     { "name": "Council on Strategic Risks", "url": "https://councilonstrategicrisks.org/feed/",                   "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3, "_note": "Tier 1 so biosecurity items aren't dropped by the AI keyword prefilter; the curation stage still picks what's relevant." },
+
+    { "name": "FAS",                        "url": "https://fas.org/feed/",                                       "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "IFP",                        "url": "https://ifp.org/feed/",                                       "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "FAI",                        "url": "https://www.thefai.org/feed.xml",                             "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "AEI",                        "url": "https://www.aei.org/feed/",                                   "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Hudson Institute",           "url": "https://www.hudson.org/rss.xml",                              "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Atlantic Council",           "url": "https://www.atlanticcouncil.org/feed/",                       "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "CEPA",                       "url": "https://cepa.org/feed/",                                      "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "ITIF",                       "url": "https://itif.org/feed/",                                      "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Heritage Foundation",        "url": "https://www.heritage.org/rss",                                "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Stimson Center",             "url": "https://www.stimson.org/feed/",                               "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "War on the Rocks",           "url": "https://warontherocks.com/feed/",                             "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Just Security",              "url": "https://www.justsecurity.org/feed/",                          "adapter": "rss", "tier": 2, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "SCSP",                       "url": "https://scsp222.substack.com/feed",                           "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 2 },
+    { "name": "ARI",                        "url": "https://ari.us/feed/",                                        "adapter": "rss", "tier": 1, "theme_hint": "policy",    "max_per_day": 3 },
+    { "name": "Google News: Carnegie AI",   "url": "https://news.google.com/rss/search?q=site:carnegieendowment.org+AI&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 2, "_note": "Carnegie's own feeds serve zero entries to non-browser clients." },
+    { "name": "Google News: Cato AI",       "url": "https://news.google.com/rss/search?q=site:cato.org+AI&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 2, "_note": "Cato blocks feed readers (403)." },
+    { "name": "Google News: Bulletin AI",   "url": "https://news.google.com/rss/search?q=site:thebulletin.org+AI&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 2, "_note": "Bulletin of the Atomic Scientists blocks feed readers (403)." },
+    { "name": "Google News: NTI",           "url": "https://news.google.com/rss/search?q=site:nti.org&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 1, "theme_hint": "policy", "max_per_day": 2, "_note": "NTI feeds blocked/empty; tier 1 so bio items aren't keyword-filtered out." },
+    { "name": "Google News: Brookings AI",  "url": "https://news.google.com/rss/search?q=site:brookings.edu+AI&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 2, "theme_hint": "policy", "max_per_day": 2, "_note": "Workaround: Brookings' own feed serves HTML to non-browser clients (see disabled entry above)." },
     { "name": "Google News: RAND biosecurity", "url": "https://news.google.com/rss/search?q=site:rand.org+biosecurity+OR+%22biological+weapons%22&hl=en-US&gl=US&ceid=US:en", "adapter": "rss", "tier": 1, "theme_hint": "policy", "max_per_day": 2, "_note": "RAND's bio/health topic feeds are 404/empty like their AI feed; tier 1 so bio items aren't keyword-filtered out." }
   ]
 }
